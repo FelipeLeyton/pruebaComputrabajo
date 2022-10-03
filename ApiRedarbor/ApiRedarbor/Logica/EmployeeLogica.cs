@@ -23,36 +23,47 @@ namespace ApiRedarbor.Logica
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 
-                while (reader.Read())
+                if (reader.HasRows)
                 {
-                    Employee employee = new()
+                    while (reader.Read())
                     {
-                        CompanyId = (int)reader["CompanyId"],
-                        CreatedOn = reader["CreatedOn"].ToString(),
-                        DeletedOn = reader["DeletedOn"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        Fax = reader["Fax"].ToString(),
-                        Name = reader["Name"].ToString(),
-                        Lastlogin = reader["Lastlogin"].ToString(),
-                        Password = reader["Password"].ToString(),
-                        PortalId = (int)reader["PortalId"],
-                        RoleId = (int)reader["RoleId"],
-                        StatusId = (int)reader["StatusId"],
-                        Telephone = reader["Telephone"].ToString(),
-                        UpdatedOn = reader["UpdatedOn"].ToString(),
-                        Username = reader["Username"].ToString()
-                    };
-                    employees.Add(employee);
+                        Employee employee = new()
+                        {
+                            EmployeeId = (int)reader["EmployeeId"],
+                            CompanyId = (int)reader["CompanyId"],
+                            CreatedOn = reader["CreatedOn"].ToString(),
+                            DeletedOn = reader["DeletedOn"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            Fax = reader["Fax"].ToString(),
+                            Name = reader["Name"].ToString(),
+                            Lastlogin = reader["Lastlogin"].ToString(),
+                            Password = reader["Password"].ToString(),
+                            PortalId = (int)reader["PortalId"],
+                            RoleId = (int)reader["RoleId"],
+                            StatusId = (int)reader["StatusId"],
+                            Telephone = reader["Telephone"].ToString(),
+                            UpdatedOn = reader["UpdatedOn"].ToString(),
+                            Username = reader["Username"].ToString()
+                        };
+                        employees.Add(employee);
+                    }
+
+                    reader.Close();
+                    connection.Close();
+
+                    response.Message = "200";
+                    response.Data = employees;
                 }
-
-                reader.Close();
-                connection.Close();
-
-                response.Data = employees;
+                else
+                {
+                    response.Message = "404";
+                    response.Data = "No hay resultados";
+                }
             }
             catch (Exception ex)
             {
-                response.Message = ex.Message;
+                response.Message = "Error";
+                response.Data = ex.Message;
             }
 
             return response;
@@ -74,35 +85,46 @@ namespace ApiRedarbor.Logica
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 
-                while (reader.Read())
+                if (reader.HasRows)
                 {
-                    employee = new()
+                    while (reader.Read())
                     {
-                        CompanyId = (int)reader["CompanyId"],
-                        CreatedOn = reader["CreatedOn"].ToString(),
-                        DeletedOn = reader["DeletedOn"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        Fax = reader["Fax"].ToString(),
-                        Name = reader["Name"].ToString(),
-                        Lastlogin = reader["Lastlogin"].ToString(),
-                        Password = reader["Password"].ToString(),
-                        PortalId = (int)reader["PortalId"],
-                        RoleId = (int)reader["RoleId"],
-                        StatusId = (int)reader["StatusId"],
-                        Telephone = reader["Telephone"].ToString(),
-                        UpdatedOn = reader["UpdatedOn"].ToString(),
-                        Username = reader["Username"].ToString()
-                    };
+                        employee = new()
+                        {
+                            EmployeeId = (int)reader["EmployeeId"],
+                            CompanyId = (int)reader["CompanyId"],
+                            CreatedOn = reader["CreatedOn"].ToString(),
+                            DeletedOn = reader["DeletedOn"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            Fax = reader["Fax"].ToString(),
+                            Name = reader["Name"].ToString(),
+                            Lastlogin = reader["Lastlogin"].ToString(),
+                            Password = reader["Password"].ToString(),
+                            PortalId = (int)reader["PortalId"],
+                            RoleId = (int)reader["RoleId"],
+                            StatusId = (int)reader["StatusId"],
+                            Telephone = reader["Telephone"].ToString(),
+                            UpdatedOn = reader["UpdatedOn"].ToString(),
+                            Username = reader["Username"].ToString()
+                        };
+                    }
+
+                    reader.Close();
+                    connection.Close();
+
+                    response.Message = "200";
+                    response.Data = employee;
                 }
-
-                reader.Close();
-                connection.Close();
-
-                response.Data = employee;
+                else
+                {
+                    response.Message = "404";
+                    response.Data = "No hay resultados";
+                }
             }
             catch (Exception ex)
             {
-                response.Message = ex.Message;
+                response.Message = "Error";
+                response.Data = ex.Message;
             }
 
             return response;
@@ -110,6 +132,7 @@ namespace ApiRedarbor.Logica
         public Response PostEmployee(Employee employee)
         {
             string spPostEmployee = "[dbo].[SP_PostEmployee]";
+            string spGetEmployeeId = "EXECUTE [dbo].[SP_GetEmployeeId]";
             Response response = new();
 
             try
@@ -137,11 +160,16 @@ namespace ApiRedarbor.Logica
                 command.ExecuteNonQuery();
                 connection.Close();
 
-                response.Data = employee;
+                command = new(spGetEmployeeId, connection);
+                connection.Open();
+                int employeeId = (int)command.ExecuteScalar();
+                response.Message = "200";
+                response.Data = GetEmployee(employeeId).Data;
             }
             catch (Exception ex)
             {
-                response.Message = ex.Message;
+                response.Message = "Error";
+                response.Data = ex.Message;
             }
 
             return response;
@@ -176,10 +204,14 @@ namespace ApiRedarbor.Logica
                 connection.Open();
                 command.ExecuteNonQuery();
                 connection.Close();
+
+                response.Message = "200";
+                response.Data = "Actualizado Correctamente";
             }
             catch (Exception ex)
             {
-                response.Message = ex.Message;
+                response.Message = "Error";
+                response.Data = ex.Message;
             }
 
             return response;
@@ -200,10 +232,14 @@ namespace ApiRedarbor.Logica
                 connection.Open();
                 command.ExecuteNonQuery();
                 connection.Close();
+
+                response.Message = "200";
+                response.Data = "Eliminado correctamnete";
             }
             catch (Exception ex)
             {
-                response.Message = ex.Message;
+                response.Message = "Error";
+                response.Data = ex.Message;
             }
 
             return response;
