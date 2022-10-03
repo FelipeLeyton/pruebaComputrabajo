@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Computrabajo\\ApiRedarbor\\ApiRedarbor\\ApiRedarbor.csproj": {}
+    "E:\\Computrabajo\\pruebaComputrabajo\\ApiRedarbor\\ApiRedarbor\\ApiRedarbor.csproj": {}
   },
   "projects": {
-    "E:\\Computrabajo\\ApiRedarbor\\ApiRedarbor\\ApiRedarbor.csproj": {
+    "E:\\Computrabajo\\pruebaComputrabajo\\ApiRedarbor\\ApiRedarbor\\ApiRedarbor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Computrabajo\\ApiRedarbor\\ApiRedarbor\\ApiRedarbor.csproj",
+        "projectUniqueName": "E:\\Computrabajo\\pruebaComputrabajo\\ApiRedarbor\\ApiRedarbor\\ApiRedarbor.csproj",
         "projectName": "ApiRedarbor",
-        "projectPath": "E:\\Computrabajo\\ApiRedarbor\\ApiRedarbor\\ApiRedarbor.csproj",
+        "projectPath": "E:\\Computrabajo\\pruebaComputrabajo\\ApiRedarbor\\ApiRedarbor\\ApiRedarbor.csproj",
         "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
-        "outputPath": "E:\\Computrabajo\\ApiRedarbor\\ApiRedarbor\\obj\\",
+        "outputPath": "E:\\Computrabajo\\pruebaComputrabajo\\ApiRedarbor\\ApiRedarbor\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -48,6 +48,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.3, )"
             }
           },
           "imports": [
